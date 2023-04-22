@@ -90,10 +90,6 @@ public class AccionesObjetos {
         menuEntradas.menuEntradas(propietario);
     }
 
-    /*public void listarElementos(){
-
-    }*/
-
     public void listarElementos(){
         File file = new File("src/main/resources/ArchivosRedSocial/" + documento);
         File fileTemporal = new File(RUTATEMPORAL);
