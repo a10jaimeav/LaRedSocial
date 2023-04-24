@@ -50,7 +50,7 @@ public class AccionesObjetos {
         File file = new File("src/main/resources/ArchivosRedSocial/" + documento);
         File fileTemporal = new File(RUTATEMPORAL);
         File fileAlternativo = new File(RUTAALTERNATIVO);
-        listarElementos();
+        listarElementos(propietario);
 
         logger.info("¿Qué entrada quieres eliminar? (Introduce numero)");
         numeroElemento = tecladoEliminar.nextInt();
@@ -90,7 +90,7 @@ public class AccionesObjetos {
         menuEntradas.menuEntradas(propietario);
     }
 
-    public void listarElementos(){
+    public void listarElementos(String propietario){
         File file = new File("src/main/resources/ArchivosRedSocial/" + documento);
         File fileTemporal = new File(RUTATEMPORAL);
         File fileAlternativo = new File(RUTAALTERNATIVO);
@@ -114,7 +114,7 @@ public class AccionesObjetos {
                 if(linea.equals("----------")) {
                     linea = br.readLine();
 
-                    if (linea.equals(this.propietario)) {
+                    if (linea.equals(propietario)) {
                         pw.write("----------\n");
                         pw.write("Entrada " + numeroOrden + " de " + propietario + "\n");
                         pw.write(propietario + "\n");
@@ -133,7 +133,7 @@ public class AccionesObjetos {
                         autonumerico = false;
 
                         Comentarios mostrarComentarios = new Comentarios(propietario, null, null, null, documento, numEntrada);
-                        mostrarComentarios.mostrarComentario();
+                        mostrarComentarios.mostrarComentario(propietario);
 
                         logger.info("-------------------------");
                     } else {
@@ -144,14 +144,27 @@ public class AccionesObjetos {
                         }
                     }
                 }
-                /*Comentarios escribirComentario = new Comentarios(propietario,null, null, null, documento, numEntrada);
-                escribirComentario.escribirComentario(propietario, numEntrada);*/
             }
+
+            logger.info("¿Quieres añadir algún comentario?(y/n)");
+            String decision;
+            Scanner tecladoDecision = new Scanner(System.in);
+            if((decision = tecladoDecision.nextLine().toLowerCase()).equals("y")){
+                logger.info("¿Sobre qué número de entrada?");
+                decision = tecladoDecision.nextLine();
+                Comentarios escribirComentario = new Comentarios(this.propietario,null, null, null, documento, decision);
+                escribirComentario.escribirComentario(propietario);
+            } else {
+                MenuEntradas volverAlMenu = new MenuEntradas();
+                volverAlMenu.menuEntradas(this.propietario);
+            }
+
         }catch (Exception e){
             e.printStackTrace();
         }
     }
 
+    //Esto me sirve para saber cuál es el último número de entrada según su tipo y poder seguir generando el autonumérico
     public int ultimoElemento(String documento){
         int ultimo = 0;
         File file = new File("src/main/resources/ArchivosRedSocial/" + documento);

@@ -4,6 +4,7 @@ import LaRedSocial.Objetos.AccionesObjetos;
 import LaRedSocial.Objetos.Imagenes;
 import LaRedSocial.Objetos.Posts;
 import LaRedSocial.Objetos.Videos;
+import LaRedSocial.Usuarios.MostrarEnPantalla;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,39 +27,45 @@ public class MenuEntradas {
             String tipo;
             Scanner tecladoOpcion = new Scanner(System.in);
             List<String> tipoEntrada = Arrays.asList("Post", "Imagen", "Video");
-            for(String s: tipoEntrada){
-                logger.info(s);
-            }
 
             switch (opcion){
                 case 1:
                     do {
+                        logger.info("{}", tipoEntrada);
                         logger.info("¿Qué tipo de entradas quieres ver?");
                         tipo = tecladoOpcion.nextLine().toLowerCase();
 
                         switch (tipo){
                             case "post":
                                 AccionesObjetos verPosts = new AccionesObjetos(nombreUsuario, null, null, null, "Posts.txt");
-                                verPosts.listarElementos();
+                                verPosts.listarElementos(nombreUsuario);
                                 break;
                             case "imagen":
                                 AccionesObjetos verImagenes = new AccionesObjetos(nombreUsuario, null, null, null,"Imagenes.txt");
-                                verImagenes.listarElementos();
+                                verImagenes.listarElementos(nombreUsuario);
                                 break;
                             case "video":
                                 AccionesObjetos verVideos = new AccionesObjetos(nombreUsuario, null, null, null,"Videos.txt");
-                                verVideos.listarElementos();
+                                verVideos.listarElementos(nombreUsuario);
                                 break;
                         }
                     } while (!tipoEntrada.contains(tipo));
                     break;
 
                 case 2:
+                    String otroUsuario;
+                    MostrarEnPantalla mostrarUsuariosSeguidos = new MostrarEnPantalla();
+                    mostrarUsuariosSeguidos.mostrarEnPantalla("Seguidos.txt", nombreUsuario);
+                    logger.info("¿De qué usuario quieres ver?");
+                    otroUsuario = tecladoOpcion.nextLine();
+                    AccionesObjetos listarEntradasOtros = new AccionesObjetos(nombreUsuario, null, null, null, "Posts.txt");
+                    listarEntradasOtros.listarElementos(otroUsuario);
                     break;
 
                 case 3:
                     //Aquí hacer para que se repita si no se introduce algo de lo que está en el ArrayList
                     do {
+                        logger.info("{}", tipoEntrada);
                         logger.info("¿Qué tipo de entrada quieres realizar?");
                         tipo = tecladoOpcion.nextLine().toLowerCase();
 
@@ -85,6 +92,7 @@ public class MenuEntradas {
                 case 5:
                     //Aquí hacer para que se repita si no se introduce algo de lo que está en el ArrayList
                     do {
+                        logger.info("{}", tipoEntrada);
                         logger.info("¿Qué tipo de entradas eliminar?");
                         tipo = tecladoOpcion.nextLine().toLowerCase();
 

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 public class MostrarEnPantalla {
     private static final Logger logger = LoggerFactory.getLogger(MenuBasico.class);
 
+    //Listo todos los usuarios o solamente los que sigo
     public void mostrarEnPantalla(String opcion, String usuarioPropio){
         //Crear el tipo archivo para indicarle la ruta
         File file = new File("src/main/resources/ArchivosRedSocial/" + opcion);
@@ -42,6 +43,7 @@ public class MostrarEnPantalla {
         }
     }
 
+    //Comparo los usuarios que sigo con los que hay en el documento para listarlos en pantalla
     public void comparar(String usuarioPropio){
         //Crear el tipo archivo para indicarle la ruta
         File file = new File("src/main/resources/ArchivosRedSocial/Usuarios.txt");
