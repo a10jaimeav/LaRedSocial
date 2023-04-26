@@ -13,7 +13,7 @@ public class AltaNueva extends AccionesUsuarios{
     private static final String RUTAUSUARIOS = "src/main/resources/ArchivosRedSocial/Usuarios.txt";
 
     public AltaNueva(String nombreUsuario) {
-        super(nombreUsuario);
+        super(nombreUsuario, null,null,null,null,null);
     }
 
     public void darDeAlta(){

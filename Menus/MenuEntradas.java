@@ -117,7 +117,7 @@ public class MenuEntradas {
                     menuBasico.menuBasico(nombreUsuario);
                     break;
                 case 7:
-                    Auditor auditarComentarios = new Auditor(nombreUsuario);
+                    Auditor auditarComentarios = new Auditor(nombreUsuario,null,null,null,null,null);
                     auditarComentarios.revisarComentario();
                     break;
                 default:

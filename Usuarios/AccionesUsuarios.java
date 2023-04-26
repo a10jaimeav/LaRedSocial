@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 public class AccionesUsuarios {
 
     private static final Logger logger = LoggerFactory.getLogger(AccionesUsuarios.class);
+    private static final String RUTAUSUARIOS = "src/main/resources/ArchivosRedSocial/Usuarios.txt";
     protected static final String RUTASEGUIDOS = "src/main/resources/ArchivosRedSocial/Seguidos.txt";
     protected static final String RUTATEMPORAL = "src/main/resources/ArchivosRedSocial/Temporal.txt";
     protected String nombreUsuario;
@@ -105,11 +106,53 @@ public class AccionesUsuarios {
         }
     }
 
+    public void reescribirUsuario(String nombreUsuario, Integer warnings){
+        try(FileReader fr = new FileReader(RUTAUSUARIOS); BufferedReader br = new BufferedReader(fr);PrintWriter pw = new PrintWriter(RUTATEMPORAL)){
+            String linea;
+            while ((linea = br.readLine()) != null){
+                String[] lineaLeida = linea.split(";");
+                if(lineaLeida[0].equals(nombreUsuario)){
+                    lineaLeida[5] = String.valueOf(Integer.parseInt(lineaLeida[5]) + warnings);
+                    for (String s : lineaLeida) {
+                        pw.write(s + ";");
+                    }
+                } else {
+                    pw.write(linea);
+                }
+                pw.write("\n");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
+        try(FileReader fr = new FileReader(RUTATEMPORAL); BufferedReader br = new BufferedReader(fr);PrintWriter pw = new PrintWriter(RUTAUSUARIOS)){
+            String linea;
+            while ((linea = br.readLine()) != null){
+                    pw.write(linea);
+                    pw.write("\n");
+                }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 
-
-
-    //getters
+    public void obtenerDatos(){
+        try(FileReader fr = new FileReader(RUTAUSUARIOS);BufferedReader br = new BufferedReader(fr)){
+            String linea;
+            while ((linea = br.readLine()) != null){
+                String[] lineaLeida = linea.split(";");
+                if(lineaLeida[0].equals(nombreUsuario)){
+                    nombre = lineaLeida[2];
+                    apellido1 = lineaLeida[3];
+                    apellido2 = lineaLeida[4];
+                    warnings = Integer.parseInt(lineaLeida[5]);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        logger.info("\nNombre: " + getNombre() + "\nApellidos: " + getApellido1() + " " + getApellido2() + "\nWarnings: " + getWarnings());
+    }
 
     //Getters
     public String getNombre() {

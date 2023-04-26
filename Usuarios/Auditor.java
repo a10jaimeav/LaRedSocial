@@ -32,8 +32,8 @@ public class Auditor extends AccionesUsuarios implements Runnable{
     ArrayList<String> postBaneados = new ArrayList<>();
     ArrayList<String> comentariosBaneados = new ArrayList<>();
 
-    public Auditor(String nombreUsuario) {
-        super(nombreUsuario);
+    public Auditor(String nombreUsuario, String password, String nombre, String apellido1, String apellido2, Integer warnings) {
+        super(nombreUsuario, password, nombre, apellido1, apellido2, warnings);
     }
 
     public void revisarPost(){
@@ -61,14 +61,16 @@ public class Auditor extends AccionesUsuarios implements Runnable{
         reescribirDocumento(RUTAPOSTS);
     }
     public void revisarComentario(){
-        palabrasBaneadas.add("sobre");
+        palabrasBaneadas.add("about");
         try(FileReader fr = new FileReader(RUTACOMENTARIOS); BufferedReader br = new BufferedReader(fr); PrintWriter pw = new PrintWriter(RUTATEMPORAL)){
             String linea;
             while ((linea = br.readLine()) != null){
+                int warning = 0;
                 String[] comentarioSeparado = linea.split(";");
                 for(int j = 0; j < palabrasBaneadas.size(); j++){
                     if(comentarioSeparado[4].contains(palabrasBaneadas.get(j))){
                         comentarioSeparado[4] = comentarioSeparado[4].replace(palabrasBaneadas.get(j),"****");
+                        warning += 1;
                     }
                 }
 
@@ -76,6 +78,8 @@ public class Auditor extends AccionesUsuarios implements Runnable{
                     pw.write(s + ";");
                 }
                 pw.write("\n");
+
+                this.reescribirUsuario(nombreUsuario, warning);
             }
         }catch (Exception e){
             e.printStackTrace();

@@ -17,7 +17,8 @@ public class MenuUsuarios {
         do{
             System.out.println();
             logger.info(nombreUsuario + ", ¿qué quieres hacer ahora?:\n\t1 - Ver todos los usuarios\n\t2 - Ver los usuarios que sigo\n" +
-                    "\t3 - Seguir un usuario\n\t4 - Dejar de seguir a un usuario\n\t5 - Eliminar mi usuario\n\t6 - Volver atrás");
+                    "\t3 - Seguir un usuario\n\t4 - Dejar de seguir a un usuario\n\t5 - Ver mis datos\n" +
+                    "\t6 - Eliminar mi usuario\n\t7 - Volver atrás");
 
             Scanner tecladoMenu = new Scanner(System.in);
             opcion = tecladoMenu.nextInt();
@@ -46,8 +47,12 @@ public class MenuUsuarios {
                     unFollow.reescribirFollow(nombreUsuario,nombreIntroducido);
                     break;
                 case 5:
+                    AccionesUsuarios obtenerDatos = new AccionesUsuarios(nombreUsuario,null,null,null,null,null);
+                    obtenerDatos.obtenerDatos();
                     break;
                 case 6:
+                    break;
+                case 7:
                     MenuBasico menuBasico = new MenuBasico();
                     menuBasico.menuBasico(nombreUsuario);
                     break;
@@ -55,6 +60,6 @@ public class MenuUsuarios {
                     logger.error("Selecciona una opción correcta");
                     break;
             }
-        } while(opcion != 6);
+        } while(opcion != 7);
     }
 }

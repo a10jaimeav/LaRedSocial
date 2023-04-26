@@ -43,7 +43,7 @@ public class InicioSesion {
             String linea;
             while((linea = br.readLine()) != null){
                 String[] comparaUsuario = linea.split(";");
-                if(comparaUsuario[0].equals(nombreUsuario) && comparaUsuario[1].equals(password)){
+                if(comparaUsuario[0].equals(nombreUsuario) && comparaUsuario[1].equals(password) && Integer.parseInt(comparaUsuario[5]) < 5){
                     logger.info("Inicio de sesión correcto");
                     return true;
                 }
@@ -51,7 +51,7 @@ public class InicioSesion {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        logger.error("El nombre de usuario o contraseña no son correctos");
+        logger.error("El nombre de usuario o contraseña no son correctos o has sido bloqueado");
         return false;
     }
 }
