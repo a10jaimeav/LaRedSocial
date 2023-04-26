@@ -47,7 +47,7 @@ public class Auditor extends AccionesUsuarios implements Runnable{
                 }
                 for(int j = 0; j < palabrasBaneadas.size(); j++){
                     if(postRevisar.get(4).contains(palabrasBaneadas.get(j))){
-                        postRevisar.get(4).replace(palabrasBaneadas.get(j),"****");
+                        postRevisar.set(4, postRevisar.get(4).replace(palabrasBaneadas.get(j),"****"));
                     }
                 }
                 for (String s : postRevisar) {
@@ -68,9 +68,10 @@ public class Auditor extends AccionesUsuarios implements Runnable{
                 String[] comentarioSeparado = linea.split(";");
                 for(int j = 0; j < palabrasBaneadas.size(); j++){
                     if(comentarioSeparado[4].contains(palabrasBaneadas.get(j))){
-                        comentarioSeparado[4].replace(palabrasBaneadas.get(j),"****");
+                        comentarioSeparado[4] = comentarioSeparado[4].replace(palabrasBaneadas.get(j),"****");
                     }
                 }
+
                 for (String s : comentarioSeparado) {
                     pw.write(s + ";");
                 }

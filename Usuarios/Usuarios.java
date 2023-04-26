@@ -10,14 +10,16 @@ public class Usuarios {
     protected String nombre;
     protected String apellido1;
     protected String apellido2;
+    protected Integer warnings;
 
     //Constructor
-    public Usuarios(String nUsuario, String password, String nombre, String apellido1, String apellido2){
+    public Usuarios(String nUsuario, String password, String nombre, String apellido1, String apellido2, Integer warnings){
         this.nUsuario = nUsuario;
         this.password = password;
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;
+        this.warnings = warnings;
     }
 
     //Getters
@@ -41,7 +43,5 @@ public class Usuarios {
         return password;
     }
 
-    public void getDetails(){
-
-    }
+    public Integer getWarnings(){ return warnings; }
 }

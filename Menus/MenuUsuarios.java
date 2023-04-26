@@ -35,14 +35,14 @@ public class MenuUsuarios {
                     mostrarEnPantalla.comparar(nombreUsuario);
                     logger.info("¿A quién quieres seguir?");
                     nombreIntroducido = tecladoNombre.nextLine();
-                    AccionesUsuarios follow = new AccionesUsuarios(nombreUsuario);
+                    AccionesUsuarios follow = new AccionesUsuarios(nombreUsuario, null, null, null, null, null);
                     follow.reescribirFollow(nombreUsuario,nombreIntroducido);
                     break;
                 case 4:
                     mostrarEnPantalla.mostrarEnPantalla("Seguidos.txt", nombreUsuario);
                     logger.info("Estos son los usuarios que sigues. ¿A quién quieres dejar de seguir?");
                     nombreIntroducido = tecladoNombre.nextLine();
-                    AccionesUsuarios unFollow = new AccionesUsuarios(nombreUsuario);
+                    AccionesUsuarios unFollow = new AccionesUsuarios(nombreUsuario, null, null, null, null, null);
                     unFollow.reescribirFollow(nombreUsuario,nombreIntroducido);
                     break;
                 case 5:

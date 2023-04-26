@@ -8,13 +8,25 @@ import java.io.FileReader;
 import java.io.PrintWriter;
 
 public class AccionesUsuarios {
+
     private static final Logger logger = LoggerFactory.getLogger(AccionesUsuarios.class);
-    protected String nombreUsuario;
     protected static final String RUTASEGUIDOS = "src/main/resources/ArchivosRedSocial/Seguidos.txt";
     protected static final String RUTATEMPORAL = "src/main/resources/ArchivosRedSocial/Temporal.txt";
+    protected String nombreUsuario;
+    protected String password;
+    protected String nombre;
+    protected String apellido1;
+    protected String apellido2;
+    protected Integer warnings;
 
-    public AccionesUsuarios(String nombreUsuario){
+    //Constructor
+    public AccionesUsuarios(String nombreUsuario, String password, String nombre, String apellido1, String apellido2, Integer warnings){
         this.nombreUsuario = nombreUsuario;
+        this.password = password;
+        this.nombre = nombre;
+        this.apellido1 = apellido1;
+        this.apellido2 = apellido2;
+        this.warnings = warnings;
     }
 
     public boolean comprobarUsuario(String ruta){//Reutilizar para seguir a alguien o dejar de seguir
@@ -92,4 +104,33 @@ public class AccionesUsuarios {
             e.printStackTrace();
         }
     }
+
+
+
+
+
+    //getters
+
+    //Getters
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellido1() {
+        return apellido1;
+    }
+
+    public String getApellido2() {
+        return apellido2;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Integer getWarnings(){ return warnings; }
 }

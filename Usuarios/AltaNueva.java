@@ -39,7 +39,7 @@ public class AltaNueva extends AccionesUsuarios{
 
         //Try para escribir la línea nueva
         try(PrintWriter pw = new PrintWriter(new FileOutputStream(fileUsuarios, true))){
-            pw.write(lineaIntroducir.toString());
+            pw.write(lineaIntroducir + ";0");
             logger.info("Has sido dado de alta correctamente");
         } catch (Exception e){
             e.printStackTrace();
