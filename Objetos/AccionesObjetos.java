@@ -95,19 +95,22 @@ public class AccionesObjetos {
         File fileTemporal = new File(RUTATEMPORAL);
         File fileAlternativo = new File(RUTAALTERNATIVO);
 
-        try(FileReader fr = new FileReader(file); BufferedReader br = new BufferedReader(fr);PrintWriter pw = new PrintWriter(fileTemporal); PrintWriter pwAux = new PrintWriter(fileAlternativo)){
+        try(FileReader fr = new FileReader(file); BufferedReader br = new BufferedReader(fr)){
             int numeroOrden = 1;
             String numEntrada = "0";
             boolean autonumerico = false;
             String linea;
 
-            if(!fileTemporal.exists()){
-                fileTemporal.createNewFile();
+            if(fileTemporal.exists()){
+                fileTemporal.delete();
             }
+            fileTemporal.createNewFile();
 
-            if(!fileAlternativo.exists()){
-                fileAlternativo.createNewFile();
+            if(fileAlternativo.exists()){
+                fileAlternativo.delete();
             }
+            fileAlternativo.createNewFile();
+
 
             //Leo línea por línea y añado algo nuevo al temporal y al temporal auxiliar
             while ((linea = br.readLine()) != null) {
@@ -115,44 +118,50 @@ public class AccionesObjetos {
                     linea = br.readLine();
 
                     if (linea.equals(propietario)) {
-                        pw.write("----------\n");
-                        pw.write("Entrada " + numeroOrden + " de " + propietario + "\n");
-                        pw.write(propietario + "\n");
-                        logger.info("Entrada " + numeroOrden);
-                        numeroOrden += 1;
-                        for (int i = 0; i < documentosValores.get(documento); i++) {
-                            pw.write(linea = br.readLine());
-                            if(!autonumerico){
-                                numEntrada = linea;
-                                autonumerico = true;
-                            } else {
-                                logger.info(linea);
+                        try(PrintWriter pw = new PrintWriter(new FileOutputStream(fileTemporal, true))) {
+
+                            pw.write("----------\n");
+                            pw.write("Entrada " + numeroOrden + " de " + propietario + "\n");
+                            pw.write(propietario + "\n");
+                            logger.info("Entrada " + numeroOrden);
+                            numeroOrden += 1;
+                            for (int i = 0; i < documentosValores.get(documento); i++) {
+                                pw.write(linea = br.readLine());
+                                if (!autonumerico) {
+                                    numEntrada = linea;
+                                    autonumerico = true;
+                                } else {
+                                    logger.info(linea);
+                                }
+                                pw.write("\n");
                             }
-                            pw.write("\n");
+                            autonumerico = false;
+
+                            Comentarios mostrarComentarios = new Comentarios(propietario, null, null, null, documento, numEntrada);
+                            mostrarComentarios.mostrarComentario(propietario);
+
+                            logger.info("-------------------------");
+                        } catch (Exception e){
+                            e.printStackTrace();
                         }
-                        autonumerico = false;
-
-                        Comentarios mostrarComentarios = new Comentarios(propietario, null, null, null, documento, numEntrada);
-                        mostrarComentarios.mostrarComentario(propietario);
-
-                        logger.info("-------------------------");
                     } else {
-                        pwAux.write("----------\n" + linea + "\n");
-                        for (int i = 0; i < documentosValores.get(documento); i++) {
-                            pwAux.write(br.readLine());
-                            pwAux.write("\n");
+                        try(PrintWriter pwAux = new PrintWriter(new FileOutputStream(fileAlternativo, true))) {
+                            pwAux.write("----------\n" + linea + "\n");
+                            for (int i = 0; i < documentosValores.get(documento); i++) {
+                                pwAux.write(br.readLine() + "\n");
+                            }
+                        } catch (Exception e){
+                            e.printStackTrace();
                         }
                     }
                 }
             }
 
             logger.info("¿Quieres añadir algún comentario?(y/n)");
-            String decision;
             Scanner tecladoDecision = new Scanner(System.in);
-            if((decision = tecladoDecision.nextLine().toLowerCase()).equals("y")){
+            if((tecladoDecision.nextLine()).equalsIgnoreCase("y")){
                 logger.info("¿Sobre qué número de entrada?");
-                decision = tecladoDecision.nextLine();
-                Comentarios escribirComentario = new Comentarios(this.propietario,null, null, null, documento, decision);
+                Comentarios escribirComentario = new Comentarios(this.propietario,null, null, null, documento, tecladoDecision.nextLine());
                 escribirComentario.escribirComentario(propietario);
             } else {
                 MenuEntradas volverAlMenu = new MenuEntradas();

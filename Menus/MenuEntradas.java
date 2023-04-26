@@ -4,6 +4,7 @@ import LaRedSocial.Objetos.AccionesObjetos;
 import LaRedSocial.Objetos.Imagenes;
 import LaRedSocial.Objetos.Posts;
 import LaRedSocial.Objetos.Videos;
+import LaRedSocial.Usuarios.Auditor;
 import LaRedSocial.Usuarios.MostrarEnPantalla;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +62,6 @@ public class MenuEntradas {
                     AccionesObjetos listarEntradasOtros = new AccionesObjetos(nombreUsuario, null, null, null, "Posts.txt");
                     listarEntradasOtros.listarElementos(otroUsuario);
                     break;
-
                 case 3:
                     //Aquí hacer para que se repita si no se introduce algo de lo que está en el ArrayList
                     do {
@@ -116,10 +116,14 @@ public class MenuEntradas {
                     MenuBasico menuBasico = new MenuBasico();
                     menuBasico.menuBasico(nombreUsuario);
                     break;
+                case 7:
+                    Auditor auditarComentarios = new Auditor(nombreUsuario);
+                    auditarComentarios.revisarComentario();
+                    break;
                 default:
                     logger.error("Selecciona una opción correcta");
                     break;
             }
-        } while(opcion != 6);
+        } while(opcion != 7);
     }
 }

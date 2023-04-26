@@ -68,7 +68,7 @@ public class Comentarios extends AccionesObjetos {
         }
 
         MenuEntradas menuEntradas = new MenuEntradas();
-        menuEntradas.menuEntradas(propietario);
+        menuEntradas.menuEntradas(this.propietario);
     }
 
     public void eliminarComentario(){
