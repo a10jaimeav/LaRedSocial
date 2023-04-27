@@ -14,8 +14,8 @@ public class AccionesObjetos {
     protected String cuerpo;
     protected Date fecha;
     protected String documento;
-    private static final String RUTATEMPORAL  = "src/main/resources/ArchivosRedSocial/Temporal.txt";
-    private static final String RUTAALTERNATIVO  = "src/main/resources/ArchivosRedSocial/TemporalAlternativo.txt";
+    private static final String RUTATEMPORAL  = "src/main/resources/ArchivosRedSocial/Temp/Temporal.txt";
+    private static final String RUTAALTERNATIVO  = "src/main/resources/ArchivosRedSocial/Temp/TemporalAlternativo.txt";
     Map<String, Integer> documentosValores = new HashMap<>() {{
         put("Posts.txt", 4);
         put("Imagenes.txt", 5);

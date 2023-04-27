@@ -6,13 +6,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.PrintWriter;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class AccionesUsuarios {
 
     private static final Logger logger = LoggerFactory.getLogger(AccionesUsuarios.class);
     private static final String RUTAUSUARIOS = "src/main/resources/ArchivosRedSocial/Usuarios.txt";
     protected static final String RUTASEGUIDOS = "src/main/resources/ArchivosRedSocial/Seguidos.txt";
-    protected static final String RUTATEMPORAL = "src/main/resources/ArchivosRedSocial/Temporal.txt";
+    protected static final String RUTATEMPORAL = "src/main/resources/ArchivosRedSocial/Temp/Temporal.txt";
     protected String nombreUsuario;
     protected String password;
     protected String nombre;
@@ -142,6 +144,8 @@ public class AccionesUsuarios {
             while ((linea = br.readLine()) != null){
                 String[] lineaLeida = linea.split(";");
                 if(lineaLeida[0].equals(nombreUsuario)){
+                    nombreUsuario = lineaLeida[0];
+                    password = lineaLeida[1];
                     nombre = lineaLeida[2];
                     apellido1 = lineaLeida[3];
                     apellido2 = lineaLeida[4];
@@ -152,6 +156,28 @@ public class AccionesUsuarios {
             e.printStackTrace();
         }
         logger.info("\nNombre: " + getNombre() + "\nApellidos: " + getApellido1() + " " + getApellido2() + "\nWarnings: " + getWarnings());
+    }
+
+    //Me falta hacer el listado de comentarios baneados y de posts
+
+    public void iniciarAuditoria(boolean estado) {
+        Auditor auditor = new Auditor(nombreUsuario, null, null, null, null, null);
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (estado) {
+                    auditor.revisarComentario();
+                } else {
+                    try {
+                        auditor.wait();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            }
+        }, 300, 3000);
     }
 
     //Getters

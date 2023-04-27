@@ -21,11 +21,12 @@ Cuando un auditor censure 5 comentarios de un usuario, este usuario pasará a es
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Auditor extends AccionesUsuarios implements Runnable{
     private static final String RUTAPOSTS = "src/main/resources/ArchivosRedSocial/Posts.txt";
     private static final String RUTACOMENTARIOS = "src/main/resources/ArchivosRedSocial/Comentarios.txt";
+    private static final String RUTATEMPCOMENTARIOS = "src/main/resources/ArchivosRedSocial/TemporalComentarios.txt";
     private static final String RUTATEMPORAL = "src/main/resources/ArchivosRedSocial/Temporal.txt";
 
     ArrayList<String> palabrasBaneadas = new ArrayList<>();
@@ -60,9 +61,11 @@ public class Auditor extends AccionesUsuarios implements Runnable{
         }
         reescribirDocumento(RUTAPOSTS);
     }
+
+    //Tengo que pausar al auditor o utilizar otros documentos
     public void revisarComentario(){
-        palabrasBaneadas.add("about");
-        try(FileReader fr = new FileReader(RUTACOMENTARIOS); BufferedReader br = new BufferedReader(fr); PrintWriter pw = new PrintWriter(RUTATEMPORAL)){
+        palabrasBaneadas.add("about4");
+        try(FileReader fr = new FileReader(RUTACOMENTARIOS); BufferedReader br = new BufferedReader(fr); PrintWriter pw = new PrintWriter(RUTATEMPCOMENTARIOS)){
             String linea;
             while ((linea = br.readLine()) != null){
                 int warning = 0;
@@ -79,7 +82,7 @@ public class Auditor extends AccionesUsuarios implements Runnable{
                 }
                 pw.write("\n");
 
-                this.reescribirUsuario(nombreUsuario, warning);
+                this.reescribirUsuario(comentarioSeparado[1], warning);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -88,16 +91,21 @@ public class Auditor extends AccionesUsuarios implements Runnable{
     }
 
     public void reescribirDocumento(String ruta){
-        try(FileReader fr = new FileReader(RUTATEMPORAL); BufferedReader br = new BufferedReader(fr); PrintWriter pw = new PrintWriter(ruta)){
+        try(FileReader fr = new FileReader(RUTATEMPCOMENTARIOS); BufferedReader br = new BufferedReader(fr); PrintWriter pw = new PrintWriter(ruta)){
             String linea;
+            boolean primeralinea = true;
             while ((linea = br.readLine()) != null){
-                pw.write(linea + "\n");
+                if(primeralinea){
+                    pw.write(linea);
+                    primeralinea = false;
+                } else {
+                    pw.write("\n" + linea);
+                }
             }
         }catch (Exception e){
             e.printStackTrace();
         }
     }
-
 
     @Override
     public void run() {

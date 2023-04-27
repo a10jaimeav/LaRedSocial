@@ -2,6 +2,7 @@ package LaRedSocial.Objetos;
 
 import LaRedSocial.Usuarios.AccionesUsuarios;
 import LaRedSocial.Menus.MenuEntradas;
+import LaRedSocial.Usuarios.Auditor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +13,7 @@ import java.util.Scanner;
 public class Comentarios extends AccionesObjetos {
     private static final Logger logger = LoggerFactory.getLogger(AccionesUsuarios.class);
     private static final String RUTACOMENTARIOS = "src/main/resources/ArchivosRedSocial/Comentarios.txt";
-    private static final String RUTATEMPORAL = "src/main/resources/ArchivosRedSocial/Temporal.txt";
+    private static final String RUTATEMPORAL = "src/main/resources/ArchivosRedSocial/Temp/Temporal.txt";
 
     protected String numEntrada;
     public Comentarios(String propietario, String titulo, String cuerpo, Date fecha, String documento, String numEntrada) {
@@ -33,6 +34,9 @@ public class Comentarios extends AccionesObjetos {
                         System.out.println("Comentario de " + lineaLeida[1] + "\n" + lineaLeida[4]);
                         System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                     }
+                    if(propietario.equals("Auditados") && lineaLeida[4].contains("****")){
+                        System.out.println("Comentario de " + lineaLeida[1] + "\n" + lineaLeida[4]);
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -44,6 +48,7 @@ public class Comentarios extends AccionesObjetos {
 
 
     public void escribirComentario(String propietario) {
+
         Scanner tecladoComentario = new Scanner(System.in);
         String respuesta;
         logger.info("Introduce el texto del comentario:");
@@ -55,7 +60,7 @@ public class Comentarios extends AccionesObjetos {
                 if(linea.equals("Entrada " + numEntrada + " de " + propietario)){
                     br.readLine();
                     linea = br.readLine();
-                    entrada = linea;//No me coge el valor de cada entrada
+                    entrada = linea;
                 }
             }
             //Crear la línea a introducir en el documento de comentarios
